@@ -8,6 +8,7 @@ import './Styles.scss';
 const LearningModule = ({setGameStatus}) => {
   const [currentQuestionId, setCurrentQuestionId] = React.useState(0);
   const [quizData, setQuizData] = React.useState({});
+  const [loadingActive, setLoadingActive] = React.useState(false);
   let currentQuestion = quizData.questionArr ? quizData.questionArr[currentQuestionId]: {};
   React.useEffect(()=>{
     getQuizData();
@@ -26,6 +27,8 @@ const LearningModule = ({setGameStatus}) => {
 
   const handleSubmit=()=> {
     if(currentQuestionId < quizData.totalQuestions-1){
+      setLoadingActive(true);
+      setTimeout(()=>{setLoadingActive(false)}, 500)
       setCurrentQuestionId(currentQuestionId+1);
     } else {
       setCurrentQuestionId(0);
@@ -59,7 +62,7 @@ const LearningModule = ({setGameStatus}) => {
               { possibleAnswers }
             </div>
             <div className="learningModule--submitButtonContainer">
-              <Button label="Submit" handleSubmit={ handleSubmit } />
+              <Button label="Submit" handleSubmit={ handleSubmit } loadingActive={ loadingActive } />
             </div>
           </div>
         </>
